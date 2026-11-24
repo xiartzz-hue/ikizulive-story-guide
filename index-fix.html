@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>イキヅライブ！ ストーリー便覧</title>
+    <meta name="description" content="イキヅライブ！ LOVELIVE! BLUEBIRDの物語の始まりから、いきづらい部！10人の結成までを月別の時系列カードでたどる非公式ファン便覧。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@600;700;900&display=swap" rel="stylesheet" />
+    <style>
+      button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2rem; }
+      :root{
+        color-scheme: light dark;
+        --bg:#f2f5f4; --bg2:#e3ecec; --surface:#ffffff; --surface2:#f4f8f7;
+        --ink:#22302e; --ink2:#4d5f5a; --ink3:#7d8f8a;
+        --line:#d3dedb; --line2:#aec2bd;
+        --accent:#1f6f9f; /* JSでメンバーカラーに切替 */
+        --accent-ink:#ffffff;
+        --m3:#5b8c5a; --m4:#2f7fa8; --m5:#c2496b; --m6:#3f8f5f;
+        --shadow:0 1px 2px rgba(20,50,45,.06),0 8px 24px -12px rgba(20,50,45,.18);
+        --radius:14px;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg:#131a19; --bg2:#1a2422; --surface:#1f2a28; --surface2:#263331;
+          --ink:#edf3f1; --ink2:#bfd0cb; --ink3:#93a8a2;
+          --line:#354743; --line2:#4b625d;
+          --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -12px rgba(0,0,0,.6);
+        }
+      }
+      *{box-sizing:border-box}
+      html{scroll-behavior:smooth}
+      body{margin:0; background:var(--bg); color:var(--ink); font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Kaku Gothic ProN",sans-serif; font-size:15px; line-height:1.75; -webkit-font-smoothing:antialiased}
+      ::selection{background:var(--accent); color:#fff}
+      a{color:var(--accent)}
+      .wrap{max-width:1080px; margin:0 auto; padding:0 16px 64px}
+
+      header.hero{
+        background:
+          radial-gradient(120% 150% at 85% -30%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 55%),
+          linear-gradient(160deg, var(--bg2), var(--bg));
+        border-bottom:3px double var(--line2);
+        transition:background .4s;
+      }
+      .hero-inner{max-width:1080px; margin:0 auto; padding:34px 16px 26px}
+      .hero .kicker{display:inline-flex; align-items:center; gap:.5em; font-size:.78rem; font-weight:700; letter-spacing:.14em; color:var(--ink2)}
+      .hero .kicker::before{content:""; width:26px; height:2px; background:var(--accent); display:inline-block}
+      h1{font-family:"Noto Serif JP",serif; font-weight:900; font-size:clamp(1.85rem,5.4vw,2.9rem); line-height:1.25; margin:.35em 0 .3em; letter-spacing:.02em}
+      h1 .line{display:block; white-space:nowrap}
+      h1 .blue{color:var(--accent)}
+      .hero p.lede{margin:0; max-width:48em; color:var(--ink2); font-size:.95rem}
+      .hero p.lede b{color:var(--ink)}
+      .accent-note{margin-top:14px; font-size:.8rem; color:var(--ink3)}
+      .accent-note b{color:var(--accent)}
+
+      /* コントロール（固定しない） */
+      .controls{border-bottom:1px solid var(--line); padding:20px 0 12px; margin-bottom:6px}
+      .controls .wrap{padding-bottom:0}
+      .tabs{display:flex; gap:6px; flex-wrap:wrap}
+      .tab{appearance:none; border:1.5px solid var(--line2); background:var(--surface); color:var(--ink2); font:inherit; font-weight:700; font-size:.9rem; padding:6px 16px; border-radius:999px; cursor:pointer; min-height:2.4rem; display:inline-flex; align-items:center; gap:.45em; transition:all .15s}
+      .tab .dot{width:9px; height:9px; border-radius:50%; background:var(--tc,#999); flex:none}
+      .tab:hover{border-color:var(--ink3)}
+      .tab[aria-pressed="true"]{background:var(--tc,var(--ink)); border-color:var(--tc,var(--ink)); color:#fff}
+      .tab[aria-pressed="true"] .dot{background:#fff}
+      .tab small{font-weight:500; opacity:.75; font-size:.75rem}
+      .filter-block{margin-top:12px}
+      .filter-label{font-size:.72rem; font-weight:700; letter-spacing:.12em; color:var(--ink3); margin:0 0 6px}
+      .chips{display:flex; flex-wrap:wrap; gap:6px}
+      .chip{appearance:none; border:1px solid var(--line); background:var(--surface); color:var(--ink2); font:inherit; font-size:.83rem; font-weight:500; padding:4px 12px; border-radius:999px; cursor:pointer; min-height:2rem; display:inline-flex; align-items:center; gap:.45em; transition:all .15s}
+      .chip:hover{border-color:var(--ink3)}
+      .chip[aria-pressed="true"]{background:var(--ink); border-color:var(--ink); color:var(--bg); font-weight:700}
+      .chip .cdot{width:11px; height:11px; border-radius:50%; background:var(--cc); border:1px solid rgba(0,0,0,.3); flex:none}
+      .chip[data-char][aria-pressed="true"]{background:var(--cc); border-color:rgba(0,0,0,.35); color:var(--ct,#fff); font-weight:700}
+      .chip[data-char][aria-pressed="true"] .cdot{background:var(--ct,#fff); border-color:rgba(0,0,0,.25)}
+      .search-row{display:flex; gap:8px; flex-wrap:wrap; align-items:stretch; margin-top:12px}
+      .search-box{flex:1 1 220px; display:flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:0 12px}
+      .search-box svg{flex:none; color:var(--ink3)}
+      .search-box input{border:0; background:transparent; font:inherit; color:var(--ink); width:100%; padding:8px 0; outline:none}
+      .search-box input::placeholder{color:var(--ink3)}
+      .result-line{margin-top:10px; font-size:.83rem; color:var(--ink3); display:flex; justify-content:space-between; gap:4px 12px; flex-wrap:wrap}
+      .result-line span{flex:1 1 220px; overflow-wrap:anywhere}
+      .result-line button{background:none; border:0; color:var(--accent); font:inherit; font-size:.83rem; font-weight:700; cursor:pointer; padding:4px 0; min-height:2rem}
+
+      .month-head{margin:30px 0 14px; display:flex; align-items:baseline; gap:14px; flex-wrap:wrap}
+      .month-head h2{font-family:"Noto Serif JP",serif; font-weight:900; font-size:1.5rem; margin:0; display:flex; align-items:center; gap:.5em}
+      .month-head h2::before{content:""; width:12px; height:12px; border-radius:3px; background:var(--pc); flex:none; transform:rotate(45deg)}
+      .month-head p{margin:0; color:var(--ink2); font-size:.88rem; flex:1 1 320px}
+
+      .grid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+      @media (max-width:840px){ .grid{grid-template-columns:1fr} }
+      .card{background:var(--surface); border:1px solid var(--line); border-top:4px solid var(--pc,var(--accent)); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px 18px 14px; display:flex; flex-direction:column; gap:8px}
+      .tags{display:flex; flex-wrap:wrap; gap:5px; align-items:center}
+      .tag-sq{font-size:.7rem; font-weight:700; letter-spacing:.04em; padding:2px 8px; border-radius:5px; background:var(--pc,var(--accent)); color:#fff; line-height:1.5}
+      .tag-sq.sub{background:transparent; color:var(--ink2); border:1px solid var(--line2)}
+      .ep-date{margin-left:auto; font-size:.78rem; color:var(--ink3); white-space:nowrap; font-variant-numeric:tabular-nums}
+      .card h3{font-family:"Noto Serif JP",serif; font-weight:700; font-size:1.12rem; line-height:1.45; margin:2px 0 0}
+      .syn{margin:0; font-size:.9rem; line-height:1.8}
+      .meta{border-top:1px dashed var(--line); padding-top:8px; display:grid; gap:8px}
+      .meta-row{display:flex; gap:10px; font-size:.83rem; align-items:flex-start}
+      .meta-row .k{flex:none; width:4.6em; font-size:.72rem; font-weight:700; letter-spacing:.08em; color:var(--ink3); padding-top:.35em}
+      .meta-row .v{flex:1; color:var(--ink2)}
+      .chars{display:flex; flex-wrap:wrap; gap:5px}
+      .char-tag{display:inline-flex; align-items:center; gap:.4em; font-size:.78rem; font-weight:500; border:1px solid var(--line); border-radius:999px; padding:1px 10px 1px 6px; background:var(--surface2); color:var(--ink)}
+      .char-tag i{width:10px; height:10px; border-radius:50%; background:var(--cc); border:1px solid rgba(0,0,0,.3); flex:none}
+      .card-links{display:flex; flex-wrap:wrap; gap:8px; margin-top:2px}
+      .btn-link{display:inline-flex; align-items:center; gap:.45em; text-decoration:none; font-size:.82rem; font-weight:700; border-radius:8px; padding:6px 12px; min-height:2rem; background:#111; color:#fff; border:1px solid #111}
+      @media (prefers-color-scheme: dark){ .btn-link{background:#e8e8e8; color:#111; border-color:#e8e8e8} }
+      .btn-link.sub{background:transparent; color:var(--ink2); border:1px solid var(--line2)}
+      .btn-link:hover{filter:brightness(1.15)}
+
+      /* 該当ポストの開閉＋埋め込み（メンバー別ボタン） */
+      .posts-btns{display:flex; flex-wrap:nowrap; gap:8px}
+      .post-toggle{appearance:none; flex:1 1 0; min-width:0; display:inline-flex; align-items:center; justify-content:center; gap:.4em; font:inherit; font-size:.82rem; font-weight:700; white-space:nowrap; border:1.5px solid rgba(0,0,0,.4); border-radius:8px; padding:6px 8px; cursor:pointer; min-height:2.2rem; transition:filter .15s}
+      .post-toggle::after{content:""; width:7px; height:7px; border-right:2px solid currentColor; border-bottom:2px solid currentColor; transform:rotate(45deg) translateY(-1px); transition:transform .15s; flex:none}
+      .post-toggle[aria-expanded="true"]::after{transform:rotate(225deg) translateY(-1px)}
+      .post-toggle:hover{filter:brightness(1.08)}
+      @media (max-width:480px){ .post-toggle{font-size:.74rem; padding:6px 4px; gap:.3em} .posts-btns{gap:6px} }
+      .posts-panel{display:grid; gap:10px; justify-items:center}
+      .posts-panel .post-slot{width:100%}
+      .posts-panel blockquote.twitter-tweet{margin:0; width:100%; background:var(--surface2); border:1px solid var(--line); border-radius:10px; padding:14px 16px; font-size:.88rem; line-height:1.6}
+      .posts-panel blockquote.twitter-tweet a{font-weight:700; overflow-wrap:anywhere}
+      .posts-panel .twitter-tweet-rendered{margin-top:0 !important; margin-bottom:0 !important}
+
+      .empty{border:1.5px dashed var(--line2); border-radius:var(--radius); padding:36px 20px; text-align:center; color:var(--ink2); background:var(--surface2)}
+      .empty b{font-family:"Noto Serif JP",serif; font-size:1.05rem; color:var(--ink); display:block; margin-bottom:4px}
+
+      footer{margin-top:52px; border-top:3px double var(--line2); padding-top:20px; font-size:.83rem; color:var(--ink2)}
+      footer h2{font-family:"Noto Serif JP",serif; font-size:1rem; margin:0 0 8px; color:var(--ink)}
+      footer ul{margin:0 0 14px; padding-left:1.3em}
+      footer li{margin:.25em 0}
+      .fineprint{color:var(--ink3); font-size:.76rem}
+      .hidden{display:none !important}
+      @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none !important} }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-inner">
+        <span class="kicker">ラブライブ！シリーズ ／ イキヅライブ！ LOVELIVE! BLUEBIRD</span>
+        <h1><span class="line">イキヅライブ！</span><span class="line"><span class="blue">ストーリー</span>便覧</span></h1>
+        <p class="lede">話数ではなく、メンバー個人のX投稿で物語が進む『イキヅライブ！』。この便覧は<b>物語の始まり（2025年3月14日・高橋ポルカの初投稿）から、「いきづらい部！」の10人がそろう結成（6月16日・佐々木翔音の入部〜6月17日の初の総会）まで</b>を、月別の時系列カードでたどる索引です。本文はX側にあるので、ここは「いつ・誰が・何をしたか」を見つけるための入口として使ってください。各カードのメンバー名のボタン（その子のイメージカラー）を開くと、その出来事の該当ポストそのものもこの場で読めます。</p>
+        <p class="accent-note">メンバーを選ぶと、その子の<b>イメージカラー</b>がこのページのアクセントになります。</p>
+      </div>
+    </header>
+
+    <div class="controls" role="region" aria-label="絞り込み">
+      <div class="wrap">
+        <div class="tabs" id="month-tabs" role="group" aria-label="月"></div>
+        <div class="filter-block">
+          <p class="filter-label">メンバーで絞り込む</p>
+          <div class="chips" id="char-chips"></div>
+        </div>
+        <div class="filter-block">
+          <p class="filter-label">サテライト校で絞り込む</p>
+          <div class="chips" id="sat-chips"></div>
+        </div>
+        <div class="search-row">
+          <label class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+            <input type="search" id="q" placeholder="キーワード検索（例：入学式、スクールアイドル、三社祭、入部）" aria-label="キーワード検索" />
+          </label>
+        </div>
+        <div class="result-line">
+          <span id="result-count" aria-live="polite"></span>
+          <button type="button" id="reset-btn">絞り込みをリセット</button>
+        </div>
+      </div>
+    </div>
+
+    <main class="wrap">
+      <div id="list"></div>
+      <div id="empty" class="empty hidden">
+        <b>条件に合う出来事が見つかりませんでした</b>
+        キーワードやフィルターをゆるめて、もう一度探してみてください。
+      </div>
+
+      <footer>
+        <h2>公式リンク</h2>
+        <ul>
+          <li><a href="https://www.lovelive-anime.jp/lovehigh/" target="_blank" rel="noopener">『イキヅライブ！ LOVELIVE! BLUEBIRD』公式サイト</a></li>
+          <li><a href="https://x.com/ikizulive_staff" target="_blank" rel="noopener">公式X（@ikizulive_staff）</a></li>
+          <li><a href="https://www.youtube.com/@IKIZULIVE" target="_blank" rel="noopener">公式YouTubeチャンネル（@IKIZULIVE）</a></li>
+        </ul>
+        <p>各カードの「（メンバー名）のポストを見る」ボタンでは、その出来事の該当ポスト（関係メンバーの公式Xアカウントの投稿）を、X公式の埋め込みで表示します。あらすじは公開された投稿内容をもとに、独自に短く要約したものです。</p>
+        <p class="fineprint">本ページは、ラブライブ！シリーズ公式とは関係のない非公式ファンサイトです。「ラブライブ！」「イキヅライブ！」「いきづらい部！」はプロジェクトイキヅライブ！の作品です。掲載範囲は2025年3月14日から6月17日までで、それ以降の出来事は含みません。</p>
+      </footer>
+    </main>
+
+    <script>
+    "use strict";
+    var CHARS = {
+      "ポルカ":{full:"高橋ポルカ", color:"#fae264", accent:"#a67c00", sat:"浅草", x:"https://x.com/polka_lion", colorName:"ラッキーイエロー"},
+      "麻衣":{full:"麻布麻衣", color:"#019fe0", accent:"#0277ab", sat:"浅草", x:"https://x.com/My_Mai_Eld", colorName:"ロジカルブルー"},
+      "玲":{full:"五桐玲", color:"#bdefac", accent:"#4e8a68", sat:"浅草", x:"https://x.com/G_Akky304250", colorName:"そよかぜ色"},
+      "花火":{full:"駒形花火", color:"#fe211f", accent:"#c01411", sat:"浅草", x:"https://x.com/hanabistarmine", colorName:"紅牡丹"},
+      "奇跡":{full:"金澤奇跡", color:"#feb7f1", accent:"#bf5aad", sat:"福井", x:"https://x.com/MiracleGoldSP", colorName:"ドリーミィピンク"},
+      "のりこ":{full:"調布のりこ", color:"#cc96ff", accent:"#8559c4", sat:"福井", x:"https://x.com/Noricco_U", colorName:"オンリーパープル"},
+      "ゆくり":{full:"春宮ゆくり", color:"#b1f9fe", accent:"#3f7ca8", sat:"梅田", x:"https://x.com/Yukuri_talk", colorName:"スワンブルー"},
+      "輝夜":{full:"此花輝夜", color:"#fe589e", accent:"#cc2f70", sat:"梅田", x:"https://x.com/Rollie_twinkle", colorName:"ローリーローズ"},
+      "真緑":{full:"山田真緑", color:"#18b300", accent:"#117d00", sat:"梅田", x:"https://x.com/LittlegreenCom", colorName:"エコグリーン"},
+      "翔音":{full:"佐々木翔音", color:"#f2f2f2", accent:"#6f7680", sat:"仙台", x:"https://x.com/ShaunTheBunny", colorName:"ノイジーホワイト"}
+    };
+    var SATS = ["浅草","福井","梅田","仙台"];
+    var MONTHS = [
+      {id:"2025-03", name:"2025年3月", sub:"始まり", color:"var(--m3)", hex:"#5b8c5a", desc:"すべてはポルカの1つの投稿から。物語の登場人物が、まずポルカ1人だけだった時期。"},
+      {id:"2025-04", name:"2025年4月", sub:"出会い", color:"var(--m4)", hex:"#2f7fa8", desc:"残る9人が次々にXに現れ、L高の入学式へ。浅草の4人が出会い、ポルカが「スクールアイドル」を知るまで。"},
+      {id:"2025-05", name:"2025年5月", sub:"発足", color:"var(--m5)", hex:"#c2496b", desc:"5月1日に「いきづらい部」が発足。活動が本格始動し、離れたサテライトの面々もポルカの動画を通じてつながり始める。月末にはゆくりが加入。"},
+      {id:"2025-06", name:"2025年6月", sub:"結成", color:"var(--m6)", hex:"#3f8f5f", desc:"輝夜・真緑、のりこ、奇跡、そして翔音。残るメンバーが次々に入部し、6月17日に10人で初の総会を開く。"}
+    ];
+    /* chars: 関係メンバー / src: 出典としてリンクするメンバー（関係者の中から） */
+    var EVENTS = [
+      /* ---------- 3月 ---------- */
+      {m:"2025-03", d:"3月14日", title:"高橋ポルカ、Xに初投稿", chars:["ポルカ"],
+       syn:"物語の始まり。後に「いきづらい部」の中心になる高橋ポルカが、Xへの初投稿を行う。この時点では、まだ部も仲間も何もない、たった1人のスタートだった。"},
+      {m:"2025-03", d:"3月25日", title:"ポルカ、中学校の卒業式へ", chars:["ポルカ"],
+       syn:"ポルカが通っていた中学校の卒業式に出席。進学先のLove学院高等学校（L高）での新生活を前にした、春休みの1日が投稿で語られる。"},
+
+      /* ---------- 4月 ---------- */
+      {m:"2025-04", d:"4月1日", title:"麻布麻衣、Xに初投稿", chars:["麻衣"],
+       syn:"浅草サテライトの麻布麻衣がXに初投稿。ポルカとは対照的に、PCやネットに明るい麻衣の存在が、物語のもう1つの入口になる。"},
+      {m:"2025-04", d:"4月2日", title:"春宮ゆくり、Xに初投稿", chars:["ゆくり"],
+       syn:"梅田サテライトの春宮ゆくりがXに初投稿。舞台に立つことを目指すゆくりの日常が、ここから少しずつ見えてくる。"},
+      {m:"2025-04", d:"4月3日", title:"調布のりこ、Xに初投稿", chars:["のりこ"],
+       syn:"福井サテライトの調布のりこがXに初投稿。声優志望ののりこの投稿が始まる。"},
+      {m:"2025-04", d:"4月4日", title:"五桐玲・此花輝夜、Xに初投稿", chars:["玲","輝夜"],
+       syn:"浅草の五桐玲と、梅田の此花輝夜が同じ日にXへ初投稿。玲は自転車、輝夜はメイクや帰国前の日々など、それぞれの個性がにじむ滑り出しだった。"},
+      {m:"2025-04", d:"4月7日", title:"金澤奇跡・山田真緑、Xに初投稿", chars:["奇跡","真緑"],
+       syn:"福井の金澤奇跡と、梅田の山田真緑がXに初投稿。お菓子作りが得意な奇跡と、地球環境への思いを発信する真緑。ゆくりはこの頃、芦屋へ帰還したことも投稿している。"},
+      {m:"2025-04", d:"4月8日", title:"駒形花火、Xに初投稿", chars:["花火"],
+       syn:"浅草の駒形花火がXに初投稿。和の文化を愛する花火の投稿が始まり、浅草サテライトの4人がX上にそろう。"},
+      {m:"2025-04", d:"4月9日", title:"L高 入学式 ― 浅草と福井で", chars:["ポルカ","麻衣","奇跡","のりこ"],
+       syn:"Love学院高等学校の入学式。ポルカと麻衣は浅草サテライトの式へ。福井では奇跡が手作りのダークチョコブラウニーを持参して出席し、のりこは自宅からオンラインで参加した。インターネット高校らしい、離れた場所での同時スタートだった。"},
+      {m:"2025-04", d:"4月10日", title:"ポルカと麻衣の出会い ―「天使様」", chars:["ポルカ","麻衣"],
+       syn:"ポルカが麻衣と出会う。麻衣のことを「天使様」と呼ぶポルカらしい表現もこの頃の投稿から。浅草コンビの関係はここから動き出す。"},
+      {m:"2025-04", d:"4月11日", title:"麻衣、ポルカにパソコンを教える", chars:["ポルカ","麻衣"],
+       syn:"ネットやPCに不慣れなポルカが、麻衣からパソコンの使い方を教わる。オンラインが前提のL高で生きていくための、最初のレッスンだった。"},
+      {m:"2025-04", d:"4月14日", title:"佐々木翔音、Xに初投稿", chars:["翔音","玲","ポルカ","麻衣"],
+       syn:"仙台の佐々木翔音がXに初投稿し、10人全員がX上にそろう。同じ頃、玲は教室で麻衣に絡むポルカの姿を目撃していた。"},
+      {m:"2025-04", d:"4月15日", title:"のりこ、初めて福井校舎へ登校", chars:["のりこ"],
+       syn:"入学式は自宅から参加したのりこが、初めて福井サテライトの校舎に登校。自宅中心だった福井の日常に、小さな変化が訪れる。"},
+      {m:"2025-04", d:"4月16日", title:"隅田川のポルカ／梅田のポスター", chars:["玲","ポルカ","真緑"],
+       syn:"玲が隅田川でポルカを目撃。一方、梅田では真緑が校舎のフリースペースに海洋プラスチックごみへの啓蒙ポスターを掲示する。各地の日常が並行して描かれた日。"},
+      {m:"2025-04", d:"4月17日", title:"駒形橋で祖母と／花火のハイカラ登校", chars:["ポルカ","花火"],
+       syn:"ポルカは駒形橋で祖母と遭遇。花火はハイカラなメイド風の着物で登校し、学校で視線を集める。浅草の下町らしい空気が流れるエピソード。"},
+      {m:"2025-04", d:"4月18日", title:"奇跡、のりこにバナナマフィンを", chars:["奇跡","のりこ"],
+       syn:"奇跡が、のりこにバナナマフィンを渡そうとする。福井の2人の距離は、奇跡の手作りお菓子を通じて少しずつ縮まっていく。"},
+      {m:"2025-04", d:"4月22日", title:"廃校の噂と、μ'sとAqoursの記憶", chars:["麻衣","玲","ポルカ"],
+       syn:"廃校の噂に騒ぐポルカを麻衣が目撃。話を聞いた玲は、かつて活躍したμ'sとAqoursのことを回想する。スクールアイドルの歴史が、物語の現在とつながり始める。"},
+      {m:"2025-04", d:"4月24日", title:"ポルカと麻衣、校舎で踏み込みすぎる", chars:["ポルカ","麻衣"],
+       syn:"ポルカと麻衣の行動が「不法侵入」と言われる騒ぎに。学校への思いが先走る2人らしいエピソードで、翌日の大きな気づきへつながっていく。"},
+      {m:"2025-04", d:"4月25日", title:"ポルカ、「スクールアイドル」を知る", chars:["ポルカ","花火"],
+       syn:"ポルカがスクールアイドルの存在を知る、物語の転機。学校を救った先輩たちの伝説が、ポルカの中で「自分もやってみたい」という気持ちに変わっていく。"},
+      {m:"2025-04", d:"4月29日", title:"浅草4人の「作戦会議」", chars:["ポルカ","麻衣","玲","花火"],
+       syn:"ポルカ・麻衣・玲・花火の浅草4人が、仲見世周辺を観光し、ソラマチで「作戦会議」を行う。浅草メンバーが初めて一堂に会し、部の発足へ向けた空気が生まれた日。"},
+
+      /* ---------- 5月 ---------- */
+      {m:"2025-05", d:"5月1日", title:"「いきづらい部」発足 ― 麻衣は副部長に", chars:["ポルカ","麻衣","玲","花火"],
+       syn:"「いきづらい部」が発足。麻布麻衣は副部長になったことをXで報告した。浅草の4人を核にした小さな部の始まりで、ここから結成までのカウントダウンが始まる。同日、福井では奇跡とのりこが一緒に遊んでいた。"},
+      {m:"2025-05", d:"5月2日", title:"花火が参加表明／輝夜、帰国してL高へ", chars:["花火","輝夜"],
+       syn:"駒形花火がX上でいきづらい部への参加を表明。一方、此花輝夜が日本に帰国し、Love学院高等学校へ入学する。梅田の物語も本格的に動き出した。"},
+      {m:"2025-05", d:"5月7日", title:"真緑、アースフェスで輝夜に助けられる", chars:["真緑","輝夜"],
+       syn:"山田真緑がアースフェスでのアルバイト中、此花輝夜に助けられる。環境活動にまっすぐな真緑と、華やかな輝夜の出会いのエピソード。"},
+      {m:"2025-05", d:"5月9日", title:"のりこ、奇跡からマカロンを受け取る", chars:["のりこ","奇跡"],
+       syn:"調布のりこが金澤奇跡からマカロンを受け取る。バナナマフィンに続く、奇跡の手作りお菓子を介した福井コンビの交流。"},
+      {m:"2025-05", d:"5月10日", title:"翔音、親と喧嘩", chars:["翔音"],
+       syn:"佐々木翔音が親と喧嘩したことを投稿。仙台で1人、自分の居場所を探す翔音の「いきづらさ」が垣間見える日だった。"},
+      {m:"2025-05", d:"5月12日", title:"いきづらい部、活動を本格始動", chars:["ポルカ"],
+       syn:"ポルカがいきづらい部の活動の本格始動を宣言。発足から約10日、部は「集まった」段階から「動き出す」段階へ進んだ。"},
+      {m:"2025-05", d:"5月14日", title:"ポルカ、放課後にダンス練習", chars:["ポルカ"],
+       syn:"ポルカが放課後にダンス練習に励む。スクールアイドルを知ってからまだ日が浅いポルカの、地道な努力が投稿で積み重なっていく。"},
+      {m:"2025-05", d:"5月15日", title:"輝夜と真緑、友達になる", chars:["輝夜","真緑"],
+       syn:"此花輝夜と山田真緑が友達になる。アースフェスでの出会いから一歩進み、梅田サテライトの絆が形になり始める。"},
+      {m:"2025-05", d:"5月16日", title:"三社祭と、東京の舞台と、地球を守る活動", chars:["花火","ゆくり","真緑","輝夜"],
+       syn:"花火は三社祭に参加し、ゆくりは東京の劇場で舞台を鑑賞。真緑の「地球を守る活動」には輝夜が加入する。浅草・梅田それぞれの週末が並行して描かれた。"},
+      {m:"2025-05", d:"5月19日", title:"ポルカと麻衣、購買のサンドイッチ", chars:["麻衣","ポルカ"],
+       syn:"麻衣がポルカと購買へサンドイッチを買いに行く。部長と副部長の、他愛ない日常の一コマ。"},
+      {m:"2025-05", d:"5月20日", title:"ゆくり、ポルカの動画を見る", chars:["ゆくり","ポルカ","のりこ","奇跡"],
+       syn:"春宮ゆくりが高橋ポルカの動画を閲覧する。離れたサテライト同士が、動画を通じてつながり始めた転機。同日、のりこは奇跡から異世界料理のアニメを薦められていた。"},
+      {m:"2025-05", d:"5月21日", title:"輝夜と翔音も、ポルカの動画を見る", chars:["輝夜","翔音","ポルカ"],
+       syn:"此花輝夜と佐々木翔音もポルカの動画を閲覧。梅田と仙台にまで、いきづらい部の活動が届き始める。まだ見ぬ仲間たちが、画面の向こうで少しずつ集まってきていた。"},
+      {m:"2025-05", d:"5月22日", title:"いきづらい部、ミーティングを実施", chars:["玲"],
+       syn:"五桐玲の投稿で、いきづらい部がミーティングを行ったことが伝えられる。発足した部が、活動の進め方を話し合う段階に入った。"},
+      {m:"2025-05", d:"5月23日", title:"奇跡のパフェ／三社祭でゆくりとポルカが出会う", chars:["奇跡","のりこ","ゆくり","ポルカ"],
+       syn:"奇跡は自作のパフェをのりこに食べさせる。一方、三社祭の浅草で、ゆくりとポルカが実際に出会う。サテライトを越えた対面が、ゆくりの決意を後押ししていく。"},
+      {m:"2025-05", d:"5月26日", title:"ゆくり、入部を希望する", chars:["ゆくり","ポルカ","真緑","輝夜"],
+       syn:"春宮ゆくりがいきづらい部への入部を希望する。同じ頃、真緑は輝夜からいきづらい部のダンス動画を見せられていた。梅田の3人の気持ちが、部へ向かって揃い始める。"},
+      {m:"2025-05", d:"5月28日", title:"ゆくり、いきづらい部へ加入", chars:["ゆくり","花火","輝夜"],
+       syn:"春宮ゆくりがいきづらい部へ正式に加入し、部員は5人に。駒形花火の投稿で加入が伝えられ、輝夜もそのことを認識する。浅草以外のサテライトから初めての加入者だった。"},
+      {m:"2025-05", d:"5月30日", title:"ゆくり、Xで参加を表明", chars:["ゆくり"],
+       syn:"ゆくりが自身のXでいきづらい部への参加を表明。加入の報告が本人の言葉で発信され、梅田から部への参加が公に知られる形になった。"},
+
+      /* ---------- 6月 ---------- */
+      {m:"2025-06", d:"6月2〜3日", title:"輝夜と真緑が入部 ― 部員7人に", chars:["輝夜","真緑","ゆくり"],
+       syn:"いきづらい部のファンになっていた輝夜と真緑が、ゆくりに勧誘されて入部。梅田サテライトの3人がそろって部員となり、部員は一気に7人へ。各地の点が、線でつながり始めた。"},
+      {m:"2025-06", d:"6月6日", title:"翔音、部員7人に反応する", chars:["翔音"],
+       syn:"部員が7人になったことに、仙台の佐々木翔音が反応する。遠く離れた場所から部を見つめていた翔音の存在が、結成へ向けた最後のピースとして浮かび上がってくる。"},
+      {m:"2025-06", d:"6月10日", title:"のりこ入部 ― 部員8人に", chars:["のりこ"],
+       syn:"調布のりこがいきづらい部へ入部し、部員は8人に。福井サテライトから最初の部員が加わり、残るは同じ福井の奇跡と、仙台の翔音の2人になった。"},
+      {m:"2025-06", d:"6月11日", title:"奇跡 入部 ― 部員9人に", chars:["奇跡"],
+       syn:"金澤奇跡がいきづらい部へ入部し、部員は9人に。のりこに続いて福井の2人がそろい、結成まであと1人。花火の誕生日でもある日だった。"},
+      {m:"2025-06", d:"6月16日", title:"翔音が転入・入部 ― 10人、結成", chars:["翔音"],
+       syn:"佐々木翔音がL高へ転入し、いきづらい部へ入部。仙台から最後の1人が加わり、部員はついに10人に。「いきづらい部！」の結成がここに成立した。"},
+      {m:"2025-06", d:"6月17日", title:"初の総会を開催", chars:["ポルカ","麻衣","玲","花火","奇跡","のりこ","ゆくり","輝夜","真緑","翔音"],
+       syn:"10人がそろって初の総会を開催。浅草・福井・梅田・仙台の4サテライトがオンラインで一堂に会し、「いきづらい部！」としての活動が本当の意味で始まった。この便覧の範囲は、ここまで。"}
+    ];
+
+    /* 該当ポストのURL（公式Xアーカイブで1件ずつ照合済み）。キーは出来事のタイトル、1件につき最大2件 */
+    var POSTS = {
+      "高橋ポルカ、Xに初投稿":["https://x.com/polka_lion/status/1900531357174128835"],
+      "ポルカ、中学校の卒業式へ":["https://x.com/polka_lion/status/1904391039701369141"],
+      "麻布麻衣、Xに初投稿":["https://x.com/My_Mai_Eld/status/1906942602261446962"],
+      "春宮ゆくり、Xに初投稿":["https://x.com/Yukuri_talk/status/1907292155439464920"],
+      "調布のりこ、Xに初投稿":["https://x.com/Noricco_U/status/1907684239321223628"],
+      "五桐玲・此花輝夜、Xに初投稿":["https://x.com/G_Akky304250/status/1908077329307353367","https://x.com/Rollie_twinkle/status/1907843035553214653"],
+      "金澤奇跡・山田真緑、Xに初投稿":["https://x.com/LittlegreenCom/status/1909022054730649809","https://x.com/MiracleGoldSP/status/1909141088826425433"],
+      "駒形花火、Xに初投稿":["https://x.com/hanabistarmine/status/1909575451099689067"],
+      "L高 入学式 ― 浅草と福井で":["https://x.com/polka_lion/status/1909810751239602677","https://x.com/Noricco_U/status/1909929030532341837"],
+      "ポルカと麻衣の出会い ―「天使様」":["https://x.com/polka_lion/status/1910254927936651692","https://x.com/My_Mai_Eld/status/1910299723497451948"],
+      "麻衣、ポルカにパソコンを教える":["https://x.com/polka_lion/status/1910606746076258785"],
+      "佐々木翔音、Xに初投稿":["https://x.com/ShaunTheBunny/status/1911570345703907747"],
+      "のりこ、初めて福井校舎へ登校":["https://x.com/Noricco_U/status/1912072655504884058"],
+      "隅田川のポルカ／梅田のポスター":["https://x.com/G_Akky304250/status/1912470527144608081","https://x.com/LittlegreenCom/status/1912268697374453900"],
+      "駒形橋で祖母と／花火のハイカラ登校":["https://x.com/polka_lion/status/1912796424774832410","https://x.com/hanabistarmine/status/1912792398205174046"],
+      "奇跡、のりこにバナナマフィンを":["https://x.com/MiracleGoldSP/status/1913123328744660994"],
+      "廃校の噂と、μ'sとAqoursの記憶":["https://x.com/My_Mai_Eld/status/1914645861075714410","https://x.com/G_Akky304250/status/1914654669445493007"],
+      "ポルカと麻衣、校舎で踏み込みすぎる":["https://x.com/My_Mai_Eld/status/1915302437633790162"],
+      "ポルカ、「スクールアイドル」を知る":["https://x.com/polka_lion/status/1915731515113431536"],
+      "浅草4人の「作戦会議」":["https://x.com/polka_lion/status/1917499665714667983"],
+      "「いきづらい部」発足 ― 麻衣は副部長に":["https://x.com/polka_lion/status/1917784039441789226","https://x.com/My_Mai_Eld/status/1917784039647502687"],
+      "花火が参加表明／輝夜、帰国してL高へ":["https://x.com/hanabistarmine/status/1918264454912868456","https://x.com/Rollie_twinkle/status/1918127552725426195"],
+      "真緑、アースフェスで輝夜に助けられる":["https://x.com/LittlegreenCom/status/1919881358966423808"],
+      "のりこ、奇跡からマカロンを受け取る":["https://x.com/Noricco_U/status/1920739262070485505"],
+      "翔音、親と喧嘩":["https://x.com/ShaunTheBunny/status/1920888245568602326"],
+      "いきづらい部、活動を本格始動":["https://x.com/polka_lion/status/1921818875886547061"],
+      "ポルカ、放課後にダンス練習":["https://x.com/polka_lion/status/1922546922981675093"],
+      "輝夜と真緑、友達になる":["https://x.com/Rollie_twinkle/status/1923000915973288203"],
+      "三社祭と、東京の舞台と、地球を守る活動":["https://x.com/Yukuri_talk/status/1923228665250447477","https://x.com/LittlegreenCom/status/1923155684419567931"],
+      "ポルカと麻衣、購買のサンドイッチ":["https://x.com/polka_lion/status/1924369935150743860","https://x.com/My_Mai_Eld/status/1924302239406883053"],
+      "ゆくり、ポルカの動画を見る":["https://x.com/Yukuri_talk/status/1924773850790662282"],
+      "輝夜と翔音も、ポルカの動画を見る":["https://x.com/Rollie_twinkle/status/1925117109039731051","https://x.com/ShaunTheBunny/status/1925200407774597493"],
+      "いきづらい部、ミーティングを実施":["https://x.com/G_Akky304250/status/1925483774839857379"],
+      "奇跡のパフェ／三社祭でゆくりとポルカが出会う":["https://x.com/Yukuri_talk/status/1925873719827660961","https://x.com/MiracleGoldSP/status/1925806526888878260"],
+      "ゆくり、入部を希望する":["https://x.com/polka_lion/status/1926908160310456395","https://x.com/LittlegreenCom/status/1926770504024596962"],
+      "ゆくり、いきづらい部へ加入":["https://x.com/hanabistarmine/status/1927626141277319451","https://x.com/Rollie_twinkle/status/1927715229192069527"],
+      "ゆくり、Xで参加を表明":["https://x.com/Yukuri_talk/status/1928425408346636653"],
+      "輝夜と真緑が入部 ― 部員7人に":["https://x.com/Rollie_twinkle/status/1929521631841435864"],
+      "翔音、部員7人に反応する":["https://x.com/ShaunTheBunny/status/1930997355748405673"],
+      "のりこ入部 ― 部員8人に":["https://x.com/Noricco_U/status/1932399343258198345"],
+      "奇跡 入部 ― 部員9人に":["https://x.com/MiracleGoldSP/status/1932748141847007417"],
+      "翔音が転入・入部 ― 10人、結成":["https://x.com/ShaunTheBunny/status/1934449603375456452"],
+      "初の総会を開催":["https://x.com/My_Mai_Eld/status/1934824328690094528","https://x.com/polka_lion/status/1934878932349931569"]
+    };
+    /* ポストURLのハンドルから投稿者（メンバー）を引く */
+    var HANDLE2FULL = {};
+    var HANDLE2KEY = {};
+    Object.keys(CHARS).forEach(function(k){
+      var h = CHARS[k].x.split("/").pop();
+      HANDLE2FULL[h] = CHARS[k].full;
+      HANDLE2KEY[h] = k;
+    });
+    function postAuthor(url){
+      var h = url.split("/")[3];
+      return HANDLE2FULL[h] || ("@"+h);
+    }
+    function postKey(url){
+      return HANDLE2KEY[url.split("/")[3]] || null;
+    }
+    /* メンバーカラーを背景にしたとき読みやすい文字色を返す */
+    function textOn(hex){
+      var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+      var brightness = 0.299*r + 0.587*g + 0.114*b;
+      return brightness > 135 ? "#22302e" : "#ffffff";
+    }
+    /* X公式 widgets.js を最初の開閉時に一度だけ読み込む */
+    var widgetCbs = null;
+    function loadWidgets(cb){
+      if(window.twttr && window.twttr.widgets){ cb(); return; }
+      if(widgetCbs){ widgetCbs.push(cb); return; }
+      widgetCbs = [cb];
+      var s = document.createElement("script");
+      s.src = "https://platform.twitter.com/widgets.js";
+      s.async = true;
+      s.setAttribute("charset","utf-8");
+      s.onload = function(){ var cbs = widgetCbs || []; widgetCbs = null; cbs.forEach(function(f){ f(); }); };
+      s.onerror = function(){ widgetCbs = null; };
+      document.head.appendChild(s);
+    }
+
+    var state = { month:"all", char:null, sat:null, q:"" };
+    var monthById = {}; MONTHS.forEach(function(m){ monthById[m.id]=m; });
+
+    function el(tag, cls, text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
+
+    /* 月タブ */
+    var tabsBox = document.getElementById("month-tabs");
+    function addTab(id, name, sub, hex){
+      var b = el("button","tab");
+      b.type="button"; b.dataset.month=id; b.setAttribute("aria-pressed", state.month===id ? "true":"false");
+      if(hex) b.style.setProperty("--tc", hex);
+      var dot = el("span","dot"); b.appendChild(dot);
+      b.appendChild(document.createTextNode(name));
+      if(sub){ var sm = el("small", null, sub); b.appendChild(sm); }
+      b.addEventListener("click", function(){ state.month=id; syncTabs(); render(); });
+      tabsBox.appendChild(b);
+    }
+    addTab("all","すべて", EVENTS.length+"件", null);
+    MONTHS.forEach(function(m){ addTab(m.id, m.name, m.sub, m.hex); });
+    function syncTabs(){
+      tabsBox.querySelectorAll(".tab").forEach(function(t){ t.setAttribute("aria-pressed", t.dataset.month===state.month ? "true":"false"); });
+    }
+
+    /* メンバーチップ */
+    var charBox = document.getElementById("char-chips");
+    Object.keys(CHARS).forEach(function(key){
+      var c = CHARS[key];
+      var b = el("button","chip");
+      b.type="button"; b.dataset.char=key; b.style.setProperty("--cc", c.color); b.style.setProperty("--ct", textOn(c.color));
+      b.setAttribute("aria-pressed","false");
+      var dot = el("span","cdot"); b.appendChild(dot);
+      b.appendChild(document.createTextNode(c.full));
+      var sm = el("small", null, c.sat); sm.style.opacity=".7"; b.appendChild(sm);
+      b.addEventListener("click", function(){
+        state.char = (state.char===key ? null : key);
+        document.documentElement.style.setProperty("--accent", state.char ? CHARS[state.char].accent : "#1f6f9f");
+        syncChips(); render();
+      });
+      charBox.appendChild(b);
+    });
+    function syncChips(){
+      charBox.querySelectorAll(".chip").forEach(function(ch){ ch.setAttribute("aria-pressed", ch.dataset.char===state.char ? "true":"false"); });
+      satBox.querySelectorAll(".chip").forEach(function(ch){ ch.setAttribute("aria-pressed", ch.dataset.sat===state.sat ? "true":"false"); });
+    }
+
+    /* サテライトチップ */
+    var satBox = document.getElementById("sat-chips");
+    SATS.forEach(function(s){
+      var b = el("button","chip", s+"サテライト");
+      b.type="button"; b.dataset.sat=s; b.setAttribute("aria-pressed","false");
+      b.addEventListener("click", function(){ state.sat = (state.sat===s ? null : s); syncChips(); render(); });
+      satBox.appendChild(b);
+    });
+
+    var qInput = document.getElementById("q");
+    qInput.addEventListener("input", function(){ state.q = qInput.value.trim(); render(); });
+    document.getElementById("reset-btn").addEventListener("click", function(){
+      state = { month:"all", char:null, sat:null, q:"" };
+      qInput.value="";
+      document.documentElement.style.setProperty("--accent", "#1f6f9f");
+      syncTabs(); syncChips(); render();
+    });
+
+    function satsOf(ev){
+      var set = {};
+      ev.chars.forEach(function(k){ set[CHARS[k].sat]=true; });
+      return Object.keys(set);
+    }
+    function matches(ev){
+      if(state.month!=="all" && ev.m!==state.month) return false;
+      if(state.char && ev.chars.indexOf(state.char)<0) return false;
+      if(state.sat && satsOf(ev).indexOf(state.sat)<0) return false;
+      if(state.q){
+        var hay = ev.title+" "+ev.syn+" "+ev.d+" "+ev.chars.map(function(k){return CHARS[k].full;}).join(" ")+" "+satsOf(ev).join(" ");
+        if(hay.indexOf(state.q)<0) return false;
+      }
+      return true;
+    }
+
+    var listBox = document.getElementById("list");
+    var emptyBox = document.getElementById("empty");
+    var countBox = document.getElementById("result-count");
+
+    function card(ev){
+      var m = monthById[ev.m];
+      var c = el("article","card");
+      c.style.setProperty("--pc", m.hex);
+      var tags = el("div","tags");
+      tags.appendChild(el("span","tag-sq", m.name.replace("2025年","")+"・"+m.sub));
+      satsOf(ev).forEach(function(s){ tags.appendChild(el("span","tag-sq sub", s+"サテライト")); });
+      tags.appendChild(el("span","ep-date","2025年"+ev.d));
+      c.appendChild(tags);
+      c.appendChild(el("h3", null, ev.title));
+      c.appendChild(el("p","syn", ev.syn));
+      var meta = el("div","meta");
+      var row = el("div","meta-row");
+      row.appendChild(el("span","k","関係者"));
+      var v = el("span","v"); var chars = el("div","chars");
+      ev.chars.forEach(function(k){
+        var cc = CHARS[k];
+        var t = el("span","char-tag"); t.style.setProperty("--cc", cc.color);
+        var i = document.createElement("i"); t.appendChild(i);
+        t.appendChild(document.createTextNode(cc.full));
+        chars.appendChild(t);
+      });
+      v.appendChild(chars); row.appendChild(v); meta.appendChild(row);
+      var posts = POSTS[ev.title] || [];
+      if(posts.length){
+        /* ポストがあるメンバーごとに、その子のカラーのボタンを並べる。各ボタンは自分のポストだけを開閉する */
+        var btns = el("div","posts-btns");
+        var panel = el("div","posts-panel hidden");
+        posts.forEach(function(url){
+          var key = postKey(url);
+          var cc = key ? CHARS[key] : null;
+          var name = key || postAuthor(url);
+          var btn = el("button","post-toggle", name+"のポストを見る");
+          btn.type = "button";
+          btn.setAttribute("aria-expanded","false");
+          if(cc){
+            btn.style.background = cc.color;
+            btn.style.color = textOn(cc.color);
+          }
+          var slot = el("div","post-slot hidden");
+          var builtPost = false;
+          btn.addEventListener("click", function(){
+            var nowHidden = slot.classList.toggle("hidden");
+            var open = !nowHidden;
+            btn.setAttribute("aria-expanded", open ? "true" : "false");
+            panel.classList.toggle("hidden", !panel.querySelector(".post-slot:not(.hidden)"));
+            if(!open) return;
+            if(!builtPost){
+              builtPost = true;
+              var dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+              var bq = document.createElement("blockquote");
+              bq.className = "twitter-tweet";
+              bq.setAttribute("data-lang","ja");
+              bq.setAttribute("data-dnt","true");
+              if(dark) bq.setAttribute("data-theme","dark");
+              var a = el("a", null, postAuthor(url)+"のポスト ― Xで見る");
+              a.href = url;
+              bq.appendChild(a);
+              slot.appendChild(bq);
+            }
+            loadWidgets(function(){
+              if(window.twttr && window.twttr.widgets) window.twttr.widgets.load(slot);
+            });
+          });
+          btns.appendChild(btn);
+          panel.appendChild(slot);
+        });
+        meta.appendChild(btns);
+        meta.appendChild(panel);
+      } else {
+        var links = el("div","card-links");
+        ev.chars.slice(0,3).forEach(function(k, idx){
+          var cc = CHARS[k];
+          var a = el("a","btn-link"+(idx===0?"":" sub"), cc.full+"のXを見る");
+          a.href = cc.x; a.target="_blank"; a.rel="noopener";
+          links.appendChild(a);
+        });
+        if(ev.chars.length>3){
+          links.appendChild(el("span", null, "ほか"+(ev.chars.length-3)+"人のXは上のタグのメンバーです"));
+        }
+        meta.appendChild(links);
+      }
+      c.appendChild(meta);
+      return c;
+    }
+
+    function render(){
+      listBox.innerHTML="";
+      var shown = 0;
+      var groups = (state.month==="all") ? MONTHS : [monthById[state.month]];
+      groups.forEach(function(m){
+        var evs = EVENTS.filter(function(ev){ return ev.m===m.id && matches(ev); });
+        if(!evs.length) return;
+        shown += evs.length;
+        var head = el("div","month-head"); head.style.setProperty("--pc", m.hex);
+        head.appendChild(el("h2", null, m.name));
+        head.appendChild(el("p", null, m.desc));
+        listBox.appendChild(head);
+        var grid = el("div","grid");
+        evs.forEach(function(ev){ grid.appendChild(card(ev)); });
+        listBox.appendChild(grid);
+      });
+      emptyBox.classList.toggle("hidden", shown>0);
+      var note = shown+"件の出来事を表示中（全"+EVENTS.length+"件／2025年3月14日〜6月17日）";
+      if(state.char) note += "／"+CHARS[state.char].full+"（"+CHARS[state.char].colorName+"）で絞り込み中";
+      countBox.textContent = note;
+    }
+    render();
+    </script>
+  <script data-goatcounter="https://ikizulive-guide.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
